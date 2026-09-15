@@ -1,19 +1,20 @@
 
 
 library(dplyr)
+library(readr)
 library(stringr)
 library(ggplot2)
 library(tidyr)
 
 setwd("")
 
-# List all csv files
-files <- list.files(pattern = "\\.csv$", full.names = TRUE)
+# List all TSV files
+files <- list.files(pattern = "\\.tsv$", full.names = TRUE)
 
 # Read and combine them
 df_all <- bind_rows(
   lapply(files, function(x) {
-    df <- read.csv(x)
+    df <- read_tsv(x, show_col_types = FALSE)
     df$sample <- tools::file_path_sans_ext(basename(x))
     return(df)
   })
